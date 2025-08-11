@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - House Price Predictor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px 20px 0 0;
+            padding: 2rem;
+        }
+        .content-section {
+            padding: 2rem;
+        }
+        .feature-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #667eea;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .btn-back {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 50px;
+            padding: 10px 25px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .btn-back:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="main-container">
+                    <!-- Header -->
+                    <div class="header text-center">
+                        <h1><i class="fas fa-info-circle me-3"></i>About House Price Predictor</h1>
+                        <p class="mb-0">Learn about our Linear Regression model and how it works</p>
+                    </div>
+
+                    <!-- Content Section -->
+                    <div class="content-section">
+                        <!-- Navigation -->
+                        <div class="mb-4">
+                            <a href="/" class="btn-back">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Predictor
+                            </a>
+                        </div>
+
+                        <!-- Model Performance -->
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                <div class="metric-card">
+                                    <h3>97.91%</h3>
+                                    <p class="mb-0">R² Score</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="metric-card">
+                                    <h3>$10,634</h3>
+                                    <p class="mb-0">RMSE</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="metric-card">
+                                    <h3>$8,460</h3>
+                                    <p class="mb-0">MAE</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="metric-card">
+                                    <h3>91</h3>
+                                    <p class="mb-0">Features</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Model Information -->
+                        <div class="feature-card">
+                            <h4><i class="fas fa-brain me-2"></i>Model Overview</h4>
+                            <p>Our House Price Predictor uses a sophisticated Linear Regression model trained on the Ames Housing dataset. The model has been carefully engineered to capture the complex relationships between house features and their market values.</p>
+                        </div>
+
+                        <div class="feature-card">
+                            <h4><i class="fas fa-chart-line me-2"></i>Performance Metrics</h4>
+                            <ul>
+                                <li><strong>R² Score (0.9791):</strong> Indicates that 97.91% of the variance in house prices is explained by our model</li>
+                                <li><strong>RMSE ($10,634):</strong> Root Mean Square Error - average prediction error in dollars</li>
+                                <li><strong>MAE ($8,460):</strong> Mean Absolute Error - average absolute prediction error</li>
+                                <li><strong>Cross-validation R² (0.9836):</strong> Consistent performance across different data splits</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-card">
+                            <h4><i class="fas fa-cogs me-2"></i>Key Features</h4>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>Most Important Features:</h6>
+                                    <ol>
+                                        <li>Overall Quality (19,921)</li>
+                                        <li>Has Fireplace (1,702)</li>
+                                        <li>Fireplaces (-870)</li>
+                                        <li>Half Bathrooms (794)</li>
+                                        <li>Exterior Quality (457)</li>
+                                    </ol>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Feature Engineering:</h6>
+                                    <ul>
+                                        <li>Total Square Footage</li>
+                                        <li>Total Bathrooms</li>
+                                        <li>House Age</li>
+                                        <li>Quality Score</li>
+                                        <li>Binary Features</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="feature-card">
+                            <h4><i class="fas fa-database me-2"></i>Dataset Information</h4>
+                            <p>The model was trained on the Ames Housing dataset, which contains detailed information about residential homes in Ames, Iowa. The dataset includes 79 explanatory variables describing various aspects of residential homes, making it an excellent resource for predicting house prices.</p>
+                            <ul>
+                                <li><strong>Training Data:</strong> 1,000 houses with known sale prices</li>
+                                <li><strong>Features:</strong> 79 original features + 12 engineered features</li>
+                                <li><strong>Price Range:</strong> $285,637 - $652,628</li>
+                                <li><strong>Average Price:</strong> $469,128</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-card">
+                            <h4><i class="fas fa-lightbulb me-2"></i>How It Works</h4>
+                            <ol>
+                                <li><strong>Input Processing:</strong> Your house features are processed and standardized</li>
+                                <li><strong>Feature Engineering:</strong> Additional features are created from your inputs</li>
+                                <li><strong>Encoding:</strong> Categorical variables are converted to numerical values</li>
+                                <li><strong>Prediction:</strong> The trained model calculates the predicted price</li>
+                                <li><strong>Output:</strong> Results are formatted and displayed</li>
+                            </ol>
+                        </div>
+
+                        <div class="feature-card">
+                            <h4><i class="fas fa-exclamation-triangle me-2"></i>Important Notes</h4>
+                            <ul>
+                                <li>This model is trained on data from Ames, Iowa and may not be directly applicable to other locations</li>
+                                <li>Predictions are estimates and should not be used as the sole basis for real estate decisions</li>
+                                <li>Market conditions, location factors, and other external variables may affect actual prices</li>
+                                <li>The model assumes linear relationships between features and house prices</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-card">
+                            <h4><i class="fas fa-code me-2"></i>Technical Details</h4>
+                            <p><strong>Technology Stack:</strong></p>
+                            <ul>
+                                <li><strong>Backend:</strong> Python, Flask, Scikit-learn</li>
+                                <li><strong>Frontend:</strong> HTML, CSS, JavaScript, Bootstrap</li>
+                                <li><strong>Model:</strong> Linear Regression with feature engineering</li>
+                                <li><strong>Data Processing:</strong> Pandas, NumPy</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

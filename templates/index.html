@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Price Predictor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px 20px 0 0;
+            padding: 2rem;
+        }
+        .form-section {
+            padding: 2rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .btn-predict {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .btn-predict:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .result-card {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+            display: none;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 2rem 0;
+        }
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+        .feature-group {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .feature-group h5 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        .form-control, .form-select {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="main-container">
+                    <!-- Header -->
+                    <div class="header text-center">
+                        <h1><i class="fas fa-home me-3"></i>House Price Predictor</h1>
+                        <p class="mb-0">Predict house prices using our advanced Linear Regression model</p>
+                    </div>
+
+                    <!-- Form Section -->
+                    <div class="form-section">
+                        <form id="predictionForm">
+                            <!-- Basic Information -->
+                            <div class="feature-group">
+                                <h5><i class="fas fa-info-circle me-2"></i>Basic Information</h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="overallQual" class="form-label">Overall Quality (1-10)</label>
+                                            <select class="form-select" id="overallQual" name="OverallQual" required>
+                                                <option value="">Select Quality</option>
+                                                <option value="1">1 - Very Poor</option>
+                                                <option value="2">2 - Poor</option>
+                                                <option value="3">3 - Fair</option>
+                                                <option value="4">4 - Below Average</option>
+                                                <option value="5">5 - Average</option>
+                                                <option value="6">6 - Above Average</option>
+                                                <option value="7">7 - Good</option>
+                                                <option value="8">8 - Very Good</option>
+                                                <option value="9">9 - Excellent</option>
+                                                <option value="10">10 - Very Excellent</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="overallCond" class="form-label">Overall Condition (1-10)</label>
+                                            <select class="form-select" id="overallCond" name="OverallCond" required>
+                                                <option value="">Select Condition</option>
+                                                <option value="1">1 - Very Poor</option>
+                                                <option value="2">2 - Poor</option>
+                                                <option value="3">3 - Fair</option>
+                                                <option value="4">4 - Below Average</option>
+                                                <option value="5">5 - Average</option>
+                                                <option value="6">6 - Above Average</option>
+                                                <option value="7">7 - Good</option>
+                                                <option value="8">8 - Very Good</option>
+                                                <option value="9">9 - Excellent</option>
+                                                <option value="10">10 - Very Excellent</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Size Information -->
+                            <div class="feature-group">
+                                <h5><i class="fas fa-ruler-combined me-2"></i>Size Information</h5>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="grLivArea" class="form-label">Above Ground Living Area (sq ft)</label>
+                                            <input type="number" class="form-control" id="grLivArea" name="GrLivArea" 
+                                                   placeholder="e.g., 1500" min="0" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="totalBsmtSF" class="form-label">Total Basement Area (sq ft)</label>
+                                            <input type="number" class="form-control" id="totalBsmtSF" name="TotalBsmtSF" 
+                                                   placeholder="e.g., 800" min="0" value="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="lotArea" class="form-label">Lot Area (sq ft)</label>
+                                            <input type="number" class="form-control" id="lotArea" name="LotArea" 
+                                                   placeholder="e.g., 8000" min="0" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bathroom Information -->
+                            <div class="feature-group">
+                                <h5><i class="fas fa-bath me-2"></i>Bathroom Information</h5>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="fullBath" class="form-label">Full Bathrooms</label>
+                                            <input type="number" class="form-control" id="fullBath" name="FullBath" 
+                                                   placeholder="e.g., 2" min="0" value="1" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="halfBath" class="form-label">Half Bathrooms</label>
+                                            <input type="number" class="form-control" id="halfBath" name="HalfBath" 
+                                                   placeholder="e.g., 1" min="0" value="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="bsmtFullBath" class="form-label">Basement Full Baths</label>
+                                            <input type="number" class="form-control" id="bsmtFullBath" name="BsmtFullBath" 
+                                                   placeholder="e.g., 1" min="0" value="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="bsmtHalfBath" class="form-label">Basement Half Baths</label>
+                                            <input type="number" class="form-control" id="bsmtHalfBath" name="BsmtHalfBath" 
+                                                   placeholder="e.g., 0" min="0" value="0">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Additional Features -->
+                            <div class="feature-group">
+                                <h5><i class="fas fa-plus-circle me-2"></i>Additional Features</h5>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="fireplaces" class="form-label">Fireplaces</label>
+                                            <input type="number" class="form-control" id="fireplaces" name="Fireplaces" 
+                                                   placeholder="e.g., 1" min="0" value="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="garageArea" class="form-label">Garage Area (sq ft)</label>
+                                            <input type="number" class="form-control" id="garageArea" name="GarageArea" 
+                                                   placeholder="e.g., 400" min="0" value="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="yearBuilt" class="form-label">Year Built</label>
+                                            <input type="number" class="form-control" id="yearBuilt" name="YearBuilt" 
+                                                   placeholder="e.g., 2000" min="1800" max="2024" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="yrSold" class="form-label">Year Sold</label>
+                                            <input type="number" class="form-control" id="yrSold" name="YrSold" 
+                                                   placeholder="e.g., 2023" min="2000" max="2024" value="2024" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-predict btn-lg">
+                                    <i class="fas fa-calculator me-2"></i>Predict House Price
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- Loading Spinner -->
+                        <div class="loading" id="loading">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p class="mt-3">Analyzing house features...</p>
+                        </div>
+
+                        <!-- Error Message -->
+                        <div class="error-message" id="errorMessage"></div>
+
+                        <!-- Result Card -->
+                        <div class="result-card" id="resultCard">
+                            <h3><i class="fas fa-dollar-sign me-2"></i>Predicted House Price</h3>
+                            <h2 id="predictionResult" class="display-4 fw-bold mb-3"></h2>
+                            <p class="mb-0">Based on the provided features and our Linear Regression model</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('predictionForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Show loading spinner
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('resultCard').style.display = 'none';
+            document.getElementById('errorMessage').style.display = 'none';
+            
+            // Collect form data
+            const formData = new FormData(this);
+            const data = {};
+            
+            for (let [key, value] of formData.entries()) {
+                data[key] = value === '' ? 0 : parseFloat(value) || value;
+            }
+            
+            // Add default values for missing fields
+            const defaultValues = {
+                'MSSubClass': 60,
+                'MSZoning': 'RL',
+                'Street': 'Pave',
+                'Alley': 'NA',
+                'LotShape': 'Reg',
+                'LandContour': 'Lvl',
+                'Utilities': 'AllPub',
+                'LotConfig': 'Inside',
+                'LandSlope': 'Gtl',
+                'Neighborhood': 'NAmes',
+                'Condition1': 'Norm',
+                'Condition2': 'Norm',
+                'BldgType': '1Fam',
+                'HouseStyle': '1Story',
+                'YearRemodAdd': data['YearBuilt'],
+                'RoofStyle': 'Gable',
+                'RoofMatl': 'CompShg',
+                'Exterior1st': 'VinylSd',
+                'Exterior2nd': 'VinylSd',
+                'MasVnrType': 'None',
+                'MasVnrArea': 0,
+                'ExterQual': 'TA',
+                'ExterCond': 'TA',
+                'Foundation': 'PConc',
+                'BsmtQual': 'TA',
+                'BsmtCond': 'TA',
+                'BsmtExposure': 'No',
+                'BsmtFinType1': 'Unf',
+                'BsmtFinSF1': 0,
+                'BsmtFinType2': 'Unf',
+                'BsmtFinSF2': 0,
+                'BsmtUnfSF': 0,
+                'Heating': 'GasA',
+                'HeatingQC': 'Gd',
+                'CentralAir': 'Y',
+                'Electrical': 'SBrkr',
+                '1stFlrSF': data['GrLivArea'] * 0.6,
+                '2ndFlrSF': data['GrLivArea'] * 0.4,
+                'LowQualFinSF': 0,
+                'BedroomAbvGr': 3,
+                'KitchenAbvGr': 1,
+                'KitchenQual': 'TA',
+                'TotRmsAbvGrd': 6,
+                'Functional': 'Typ',
+                'FireplaceQu': 'NA',
+                'GarageType': 'Attchd',
+                'GarageYrBlt': data['YearBuilt'],
+                'GarageFinish': 'Unf',
+                'GarageCars': Math.ceil(data['GarageArea'] / 200),
+                'GarageQual': 'TA',
+                'GarageCond': 'TA',
+                'PavedDrive': 'Y',
+                'WoodDeckSF': 0,
+                'OpenPorchSF': 0,
+                'EnclosedPorch': 0,
+                '3SsnPorch': 0,
+                'ScreenPorch': 0,
+                'PoolArea': 0,
+                'PoolQC': 'NA',
+                'Fence': 'NA',
+                'MiscFeature': 'NA',
+                'MiscVal': 0,
+                'MoSold': 6,
+                'SaleType': 'WD',
+                'SaleCondition': 'Normal'
+            };
+            
+            // Merge with form data
+            const finalData = { ...defaultValues, ...data };
+            
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(finalData)
+                });
+                
+                const result = await response.json();
+                
+                // Hide loading spinner
+                document.getElementById('loading').style.display = 'none';
+                
+                if (result.success) {
+                    // Show result
+                    document.getElementById('predictionResult').textContent = result.prediction;
+                    document.getElementById('resultCard').style.display = 'block';
+                    
+                    // Scroll to result
+                    document.getElementById('resultCard').scrollIntoView({ 
+                        behavior: 'smooth' 
+                    });
+                } else {
+                    // Show error
+                    document.getElementById('errorMessage').textContent = result.error;
+                    document.getElementById('errorMessage').style.display = 'block';
+                }
+                
+            } catch (error) {
+                // Hide loading spinner
+                document.getElementById('loading').style.display = 'none';
+                
+                // Show error
+                document.getElementById('errorMessage').textContent = 'An error occurred while making the prediction.';
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
