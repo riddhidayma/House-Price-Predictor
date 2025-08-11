@@ -135,4 +135,4 @@ If you encounter any issues or have questions:
 
 ---
 
-**Built with ❤️ using Python, Flask, and Machine Learning**
+**Built with Application using Python, Flask, and Machine Learning**
